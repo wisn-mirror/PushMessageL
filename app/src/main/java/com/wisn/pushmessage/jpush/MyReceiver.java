@@ -1,4 +1,4 @@
-package com.wisn.pushmessage;
+package com.wisn.pushmessage.jpush;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.wisn.pushmessage.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

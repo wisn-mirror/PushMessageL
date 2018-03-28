@@ -5,6 +5,7 @@
     <permission
         android:name="com.wisn.pushmessage.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
+    <!--//////////////////////Jpush start ////////////////////////////////-->
 
     <!-- Required  一些系统要求的权限，如访问网络等-->
     <uses-permission android:name="com.wisn.pushmessage.permission.JPUSH_MESSAGE" />
@@ -28,6 +29,15 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <!--//////////////////////Jpush end ////////////////////////////////-->
+
+    <!--//////////////////////Mipush start ////////////////////////////////-->
+    <!-- the following 2 com.xiaomi.mipushdemo should be changed to your package name -->
+    <permission
+        android:name="com.wisn.pushmessage.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.wisn.pushmessage.permission.MIPUSH_RECEIVE" />
+    <!--//////////////////////Mipush start ////////////////////////////////-->
 
     <application
         android:allowBackup="true"
@@ -45,6 +55,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--//////////////////////////////////////////Jpush start ////////////////////////////////////////////////////////////////////////-->
+
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
@@ -130,7 +143,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
-            android:name=".MyReceiver"
+            android:name=".jpush.MyReceiver"
             android:exported="false"
             android:enabled="true">
             <intent-filter>
@@ -144,15 +157,71 @@
         </receiver>
 
         <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调-->
-        <receiver android:name=".MyJPushMessageReceiver">
+        <receiver android:name=".jpush.MyJPushMessageReceiver">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
                 <category android:name="com.wisn.pushmessage"></category>
             </intent-filter>
         </receiver>
         <!-- Required  . Enable it you can get statistics data with channel -->
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="5611dc77a113ff96a35e3714" /> <!--  </>值来自开发者平台取得的AppKey-->
+        <meta-data android:name="JPUSH_CHANNEL" android:value="@string/JPUSH_CHANNEL"/>
+        <meta-data android:name="JPUSH_APPKEY" android:value="@string/JPUSH_APPKEY" /> <!--  </>值来自开发者平台取得的AppKey-->
+
+        <!--//////////////////////////////////////////Jpush end ////////////////////////////////////////////////////////////////////////-->
+
+        <!--//////////////////////////////////////////Mipush start ////////////////////////////////////////////////////////////////////////-->
+
+        <service
+            android:name="com.xiaomi.push.service.XMJobService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":pushservice" />
+
+        <service
+            android:name="com.xiaomi.push.service.XMPushService"
+            android:enabled="true"
+            android:process=":pushservice" />
+
+        <service
+            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
+            android:enabled="true" />
+
+        <receiver
+            android:name=".mipush.MipushReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.ERROR" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.xiaomi.push.service.receivers.PingReceiver"
+            android:exported="false"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.xiaomi.push.PING_TIMER" />
+            </intent-filter>
+        </receiver>
+        <!--//////////////////////////////////////////Mipush end ////////////////////////////////////////////////////////////////////////-->
 
     </application>
 </manifest>

@@ -1,4 +1,4 @@
-package com.wisn.pushmessage;
+package com.wisn.pushmessage.jpush;
 
 import android.content.Context;
 

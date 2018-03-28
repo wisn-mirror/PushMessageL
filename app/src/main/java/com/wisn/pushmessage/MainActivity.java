@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.wisn.pushmessage.R;
+
 import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends AppCompatActivity {

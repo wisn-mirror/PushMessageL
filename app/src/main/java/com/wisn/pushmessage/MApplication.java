@@ -2,6 +2,8 @@ package com.wisn.pushmessage;
 
 import android.app.Application;
 
+import com.wisn.pushmessage.mipush.MiPushCom;
+
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -14,5 +16,7 @@ public class MApplication extends Application {
         super.onCreate();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        MiPushCom  miPushCom=new MiPushCom();
+        miPushCom.init(this,getResources().getString(R.string.APP_ID),getResources().getString(R.string.APP_KEY));
     }
 }
