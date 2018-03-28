@@ -18,5 +18,6 @@ public class MApplication extends Application {
         JPushInterface.init(this);
         MiPushCom  miPushCom=new MiPushCom();
         miPushCom.init(this,getResources().getString(R.string.APP_ID),getResources().getString(R.string.APP_KEY));
+//        HMSAgent.init(this);
     }
 }

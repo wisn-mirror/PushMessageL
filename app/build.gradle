@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.wisn.pushmessage"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -51,6 +51,10 @@ dependencies {
     compile files('libs/jcore-android-1.1.8.jar')
     compile files('libs/jpush-android-3.1.0.jar')
     compile files('libs/MiPush_SDK_Client_3_5_2.jar')
+//    compile 'cn.jiguang.sdk.plugin:huawei:3.1.0'
+    compile 'com.huawei.android.hms:push:2.6.0.301'
+    compile 'com.android.support:support-v4:+'
+
     /*compile 'cn.jiguang.sdk:jpush:3.0.9'  // 此处以JPush 3.0.9 版本为例。
     compile 'cn.jiguang.sdk:jcore:1.1.7'  // 此处以JCore 1.1.7 版本为例。*/
 }
