@@ -16,8 +16,9 @@ public class MApplication extends Application {
         super.onCreate();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-        MiPushCom  miPushCom=new MiPushCom();
-        miPushCom.init(this,getResources().getString(R.string.APP_ID),getResources().getString(R.string.APP_KEY));
+//        MiPushCom  miPushCom=new MiPushCom();
+//        miPushCom.init(this,getResources().getString(R.string.APP_ID),getResources().getString(R.string.APP_KEY));
 //        HMSAgent.init(this);
+//        AlarmUtils.startTimer(this);
     }
 }

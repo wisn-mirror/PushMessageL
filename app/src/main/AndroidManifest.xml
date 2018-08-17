@@ -305,6 +305,10 @@
         </receiver>
 
         <!--//////////////////////////////////////////Hwpush end ////////////////////////////////////////////////////////////////////////-->
-
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="ararm_action" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

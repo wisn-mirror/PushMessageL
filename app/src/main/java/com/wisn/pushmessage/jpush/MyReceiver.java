@@ -4,17 +4,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.wisn.pushmessage.MainActivity;
+import com.wisn.pushmessage.utils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * 自定义接收器
@@ -32,11 +37,46 @@ public class MyReceiver extends BroadcastReceiver {
 			Bundle bundle = intent.getExtras();
 			Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 
+
+			ToastUtil.showToast("[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle),context);
 			if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
 				String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
 				Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
 				//send the Registration Id to your server...
+//				JPushInterface.setAlias(context, 111,"15038267031");
+				Set<String> set=new HashSet<>();
+				set.add("student");
+				set.add("male");
+				set.add("agg");
+//				JPushInterface.setTags(context,111,set);
+				JPushInterface.setTags(context, set, new TagAliasCallback() {
+					@Override
+					public void gotResult(int i, String s, Set<String> set) {
+						Log.d(TAG, "[MyReceiver] setTags TagAliasCallback - " + i + ", s: "+s);
+						if(set==null) return ;
+						Iterator<String> iterator = set.iterator();
+						while (iterator!=null&&iterator.hasNext()){
+							String next = iterator.next();
+							Log.d(TAG, "[MyReceiver] setTags next - " +next);
 
+						}
+
+					}
+				});
+				JPushInterface.setAlias(context, "15038267031", new TagAliasCallback() {
+					@Override
+					public void gotResult(int i, String s, Set<String> set) {
+						Log.d(TAG, "[MyReceiver]  TagAliasCallback - " + i + ", s: "+s);
+						if(set==null) return ;
+						Iterator<String> iterator = set.iterator();
+						while (iterator!=null&&iterator.hasNext()){
+							String next = iterator.next();
+							Log.d(TAG, "[MyReceiver]  next - " +next);
+
+						}
+
+					}
+				});
 			} else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
 				Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
 				processCustomMessage(context, bundle);
