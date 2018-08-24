@@ -1,6 +1,7 @@
 package com.wisn.pushmessage.jpush;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +30,9 @@ import cn.jpush.android.api.TagAliasCallback;
  * 2) 接收不到自定义消息
  */
 public class MyReceiver extends BroadcastReceiver {
-	private static final String TAG = "JIGUANG-Example";
+	public static final String TAG = "JIGUANG-Example";
+	public static final String TAG2 = "JIGUANG-Example2";
+	private static String regId;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -39,8 +42,12 @@ public class MyReceiver extends BroadcastReceiver {
 
 
 			ToastUtil.showToast("[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle),context);
+			//发送获取token请求
+			Intent responseIntent = new Intent(MainActivity.INFO_RESPONSE_ACTION);
+			responseIntent.putExtra(TAG,"[MyReceiver] onReceive -registerId "+regId+" action" + intent.getAction() + ", extras: " + printBundle(bundle));
+			context.sendBroadcast(responseIntent);
 			if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
-				String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
+				regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
 				Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
 				//send the Registration Id to your server...
 //				JPushInterface.setAlias(context, 111,"15038267031");
